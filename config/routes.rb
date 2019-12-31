@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  get 'application/home'
-  root 'application#home'
+  root 'home#index'
+
+  get 'images/new'
+  post 'images', to: 'images#create'
+  get 'images/:id', to: 'images#show', as: 'image'
 end
