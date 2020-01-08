@@ -11,7 +11,5 @@ Rails.application.routes.draw do
   # get '*path', to: 'home#index', constraints: ->(request) do
   #   !request.xhr? && request.format.html?
   # end
-  get '/images*', to: 'home#index'
-  get '/images/new', to: 'home#index'
-  get '/images/:id', to: 'home#index'
+  get '/images*all', to: 'home#index'
 end
