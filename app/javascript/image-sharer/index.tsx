@@ -23,6 +23,7 @@ const Home = () => {
   return <Fragment>
       <h1>Image Sharer Ultra</h1>
       <Link to='/images/new'>Add new image</Link>
+      <ImageIndex />
     </Fragment>;
 };
 
@@ -70,9 +71,32 @@ const ShowImage = () => {
     return <p>Loading...</p>;
   }
 
-  return <p>
-      <img src={image.data.url} />
-    </p>;
+  return <img style={{maxWidth: '100%'}} src={image.data.url} />;
+};
+
+const ImageIndex = () => {
+  const [ images, setImages ] = useState(null);
+  useEffect(() => {
+    Image.all().then(setImages);
+  }, []);
+
+  if (images === null) {
+    return <p>Loading...</p>;
+  }
+
+  return <Fragment>
+    <div className="my-container">
+      <div className="my-grid-row">
+        {[...images.data].reverse().map(image => (
+          <div className='my-grid-item'>
+            <Link to={`/images/${image.id}`}>
+              <img src={image.url} />
+            </Link>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Fragment>;
 };
 
 const Root = () => {

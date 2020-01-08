@@ -13,3 +13,27 @@
  *= require_tree .
  *= require_self
  */
+
+.my-container {
+  /* max-width: 1024px; */
+  margin: 0 auto;
+}
+
+.my-grid-row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.my-grid-item {
+  max-width: 400px;
+  -ms-flex: auto;
+  position: relative;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.my-grid-item img {
+  width: 100%;
+}
