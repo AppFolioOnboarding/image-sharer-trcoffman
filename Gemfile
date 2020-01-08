@@ -49,3 +49,5 @@ end
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem "af_json_api", "~> 7.0"
+
+gem "acts-as-taggable-on", "~> 6.5"

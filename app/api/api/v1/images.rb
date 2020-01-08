@@ -26,6 +26,7 @@ module Api
           attrs = params[:data][:attributes]
           image = ::Image.create!({
                                    url: attrs[:url],
+                                   tag_list: attrs[:tag_list],
                               })
           present image
         end

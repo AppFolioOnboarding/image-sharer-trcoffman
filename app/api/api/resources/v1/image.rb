@@ -6,6 +6,7 @@ module Api
         type 'image'
 
         attribute :url
+        attribute :tag_list
         attribute :created_at
         attribute :updated_at
       end

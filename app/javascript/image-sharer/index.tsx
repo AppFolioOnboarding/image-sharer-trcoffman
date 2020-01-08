@@ -16,6 +16,7 @@ class Image extends ApplicationRecord {
   static endpoint = '/images';
 
   @Attr() url: string;
+  @Attr() tagList: string[];
 };
 
 
@@ -28,15 +29,20 @@ const Home = () => {
 };
 
 const SaveImage = () => {
-  const [ url, setUrl ] = useState('default');
+  const [ url, setUrl ] = useState('');
+  const [ rawTags, setRawTags ] = useState('');
   const [ response, setResponse ] = useState(null);
   const [ fetchError, setFetchError ] = useState(null);
   const history = useHistory();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const tag_list = rawTags
+      .split(' ')
+      .map(tag => tag.trim())
+      .filter(tag => tag.length > 0);
     try {
-      const image = new Image({ url });
+      const image = new Image({ url, tag_list });
       await image.save();
       setResponse(image);
     } catch (e) {
@@ -50,11 +56,15 @@ const SaveImage = () => {
   return <Fragment>
       <h1>Save an Image Link</h1>
       <form onSubmit={handleSubmit}>
+        {response && response.errors.url && <span>{response.errors.url.fullMessage}<br/></span>}
+        {fetchError && <ul><li>{fetchError.toString()}</li></ul>}
         <label htmlFor='url'>
-          {response && response.errors.url && <span>{response.errors.url.fullMessage}<br/></span>}
-          {fetchError && <ul><li>{fetchError.toString()}</li></ul>}
+          Url:&nbsp;
         </label>
         <input name='url' id='url' type='text' value={url} onChange={e => setUrl(e.target.value)} />
+        <label htmlFor='tags'>
+        </label>
+        <input name='tags' id='tags' type='text' value={rawTags} onChange={e => setRawTags(e.target.value)} />
         <input type='submit' value='Submit'/>
       </form>
     </Fragment>;

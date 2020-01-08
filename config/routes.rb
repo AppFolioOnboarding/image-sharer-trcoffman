@@ -8,8 +8,5 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-  # get '*path', to: 'home#index', constraints: ->(request) do
-  #   !request.xhr? && request.format.html?
-  # end
-  get '/images*all', to: 'home#index'
+  get '/*all', to: 'home#index'
 end
