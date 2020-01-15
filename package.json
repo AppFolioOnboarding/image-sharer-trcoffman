@@ -11,6 +11,7 @@
     "prop-types": "^15.6.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-gears": "^5.4.0",
     "react-router-dom": "^5.1.2",
     "spraypaint": "^0.10.10",
     "ts-loader": "^6.2.1",

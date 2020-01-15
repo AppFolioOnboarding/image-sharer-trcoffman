@@ -3,6 +3,7 @@ import { Fragment, useEffect, useState } from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link, Route, useHistory, useParams, Switch } from 'react-router-dom';
 import { SpraypaintBase, Model, Attr } from 'spraypaint';
+import { BoundForm, BoundFormRow, Button, Container, Navbar, NavbarBrand, Nav, NavItem, NavLink, Row, Col, } from 'react-gears';
 
 @Model()
 class ApplicationRecord extends SpraypaintBase {
@@ -22,8 +23,6 @@ class Image extends ApplicationRecord {
 
 const Home = () => {
   return <Fragment>
-      <h1>Image Sharer Ultra</h1>
-      <Link to='/images/new'>Add new image</Link>
       <ImageIndex />
     </Fragment>;
 };
@@ -52,22 +51,45 @@ const SaveImage = () => {
   if (response && response.id) {
     history.push(`/images/${response.id}`);
   }
-
   return <Fragment>
-      <h1>Save an Image Link</h1>
-      <form onSubmit={handleSubmit}>
-        {response && response.errors.url && <span>{response.errors.url.fullMessage}<br/></span>}
-        {fetchError && <ul><li>{fetchError.toString()}</li></ul>}
-        <label htmlFor='url'>
-          Url:&nbsp;
-        </label>
-        <input name='url' id='url' type='text' value={url} onChange={e => setUrl(e.target.value)} />
-        <label htmlFor='tags'>
-        </label>
-        <input name='tags' id='tags' type='text' value={rawTags} onChange={e => setRawTags(e.target.value)} />
-        <input type='submit' value='Submit'/>
-      </form>
-    </Fragment>;
+    <Row></Row>
+    <h1>Add Image</h1>
+    <BoundForm
+      errors={{
+        url: response && response.errors && response.errors.url && response.errors.url.fullMessage,
+        tags: response && response.errors && response.errors.tags && response.errors.tags.fullMessage,
+      }}
+      object={{
+        url: '',
+        tags: '',
+      }}
+      onSubmit={handleSubmit}>
+      <Row>
+        <Col>
+          <BoundFormRow
+            label='URL'
+            name='url'
+            onChange={e => setUrl(e.target.value)}
+            required
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <BoundFormRow
+            label='Tags'
+            name='tags'
+            onChange={e => setRawTags(e.target.value)}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col sm={{size: 'auto', offset: 3}}>
+          <Button>Submit</Button>
+        </Col>
+      </Row>
+    </BoundForm>
+  </Fragment>;
 };
 
 const ShowImage = () => {
@@ -112,9 +134,35 @@ const ImageIndex = () => {
 const Root = () => {
 
   return <Router>
-    <div>
-      <aside>
-      </aside>
+    <Navbar
+      color='primary'
+      dark
+      expand='md'
+      fixed={undefined}
+      tag='nav'
+    >
+      <NavbarBrand
+        tag='span'
+      >
+        <Link className='navbar-brand' to='/'>
+          Image Sharer Ultra
+        </Link>
+      </NavbarBrand>
+      <Nav
+        justified={true}
+        navbar
+        className='ml-auto'
+      >
+        <NavItem>
+          <Link className='nav-link' to='/images/new'>Add Image</Link>
+        </NavItem>
+      </Nav>
+    </Navbar>
+    <Container
+      className='text-xs-center'
+      fluid
+      tag='div'
+    >
       <main>
         <Switch>
           <Route exact path='/' component={Home} />
@@ -122,13 +170,9 @@ const Root = () => {
           <Route path='/images/:id' component={ShowImage} />
         </Switch>
       </main>
-    </div>
+    </Container>
   </Router>;
 };
-
-const Wut = () => {
-  return <Home />;
-}
 
 console.log("Hello, React!");
 document.addEventListener('DOMContentLoaded', () => {
