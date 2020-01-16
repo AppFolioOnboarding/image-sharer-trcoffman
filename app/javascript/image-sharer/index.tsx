@@ -36,12 +36,12 @@ const SaveImage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const tag_list = rawTags
+    const tagList = rawTags
       .split(' ')
       .map(tag => tag.trim())
       .filter(tag => tag.length > 0);
     try {
-      const image = new Image({ url, tag_list });
+      const image = new Image({ url, tagList });
       await image.save();
       setResponse(image);
     } catch (e) {
@@ -57,11 +57,11 @@ const SaveImage = () => {
     <BoundForm
       errors={{
         url: response && response.errors && response.errors.url && response.errors.url.fullMessage,
-        tags: response && response.errors && response.errors.tags && response.errors.tags.fullMessage,
+        tagList: response && response.errors && response.errors.tagList && response.errors.tagList.fullMessage,
       }}
       object={{
         url: '',
-        tags: '',
+        tagList: '',
       }}
       onSubmit={handleSubmit}>
       <Row>
@@ -78,8 +78,9 @@ const SaveImage = () => {
         <Col>
           <BoundFormRow
             label='Tags'
-            name='tags'
+            name='tagList'
             onChange={e => setRawTags(e.target.value)}
+            required
           />
         </Col>
       </Row>
